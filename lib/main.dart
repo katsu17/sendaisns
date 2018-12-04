@@ -10,18 +10,19 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '仙台SNS',
       theme: ThemeData(
-        primarySwatch: Colors.orange,
-        accentColor: Colors.cyan,
+        primaryColor: Colors.orange,
+        accentColor: Colors.cyan[400],
         scaffoldBackgroundColor: Colors.white,
         textTheme: TextTheme(
           body1: TextStyle(
             fontSize: 15.0,
           ),
           button: TextStyle(
-            color: Colors.white,
+            fontSize: 16.0,
           ),
         ),
         buttonTheme: ButtonThemeData(
+          buttonColor: Colors.cyan[400],
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
         ),
