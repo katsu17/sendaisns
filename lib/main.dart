@@ -22,7 +22,8 @@ class MyApp extends StatelessWidget {
           ),
         ),
         buttonTheme: ButtonThemeData(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
         ),
       ),
       home: MyHomePage(),
@@ -47,7 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
       },
       "image":
           "https://tblg.k-img.com/restaurant/images/Rvw/50600/50600742.jpg",
-      "text": "阿部の笹かまの工場見学楽しかった！"
+      "text": "阿部の笹かまの工場見学楽しかった！",
+      "posted_at": DateTime(2018, 12, 2),
     },
     {
       "user": {
@@ -56,7 +58,19 @@ class _MyHomePageState extends State<MyHomePage> {
             "http://www.bijogoyomi.com/news/wp-content/uploads/2015/03/img21.jpg"
       },
       "image": "https://www.dokka.jp/uimg/site3518-00.jpg",
-      "text": "青葉城跡からの夜景はいつきても本当に綺麗"
+      "text": "青葉城跡からの夜景はいつきても本当に綺麗",
+      "posted_at": DateTime(2018, 12, 1),
+    },
+    {
+      "user": {
+        "name": "Yumi",
+        "image":
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQzVytxSQxlQtWISWuQHWy-WIJsW3064Ipo9U5YHv9sI5Bssb0kA"
+      },
+      "image":
+          "http://www.hokke.co.jp/wp/wp-content/uploads/2016/12/15203375_991274524350153_6547536103821712975_n.jpg",
+      "text": "今年の光のページェントは例年よりも始まるのが遅くて残念＞＜早く始まらないかな〜",
+      "posted_at": DateTime(2018, 11, 28),
     },
   ];
 
@@ -84,11 +98,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 Container(
                   width: 8.0,
                 ),
+                Expanded(
+                  child: Text(
+                    post["user"]["name"],
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0,
+                    ),
+                  ),
+                ),
                 Text(
-                  post["user"]["name"],
+                  "${post["posted_at"].year}/${post["posted_at"].month}/${post["posted_at"].day}",
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0,
+                    color: Colors.grey,
+                    fontSize: 12.0,
                   ),
                 ),
               ],
