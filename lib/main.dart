@@ -6,15 +6,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: '仙台SNS',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-<<<<<<< HEAD
-      home: MyHomePage(title: 'Sendai SNS'),
-=======
       home: MyHomePage(title: '仙台SNS'),
->>>>>>> cc5c6337e262fcad18c9dd8c59cadc62697c21f4
     );
   }
 }
