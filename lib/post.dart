@@ -11,7 +11,7 @@ class PostPage extends StatefulWidget {
 }
 
 class PostPageState extends State<PostPage> {
-    File _image;
+  File _image;
 
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -42,9 +42,12 @@ class PostPageState extends State<PostPage> {
               ),
             ],
           ),
-          _image == null? Container(): Image.file(_image),
+          _image == null ? Container() : Image.file(_image),
           RaisedButton(
-            child: Text("投稿"),
+            child: Text(
+              "投稿",
+              style: Theme.of(context).textTheme.button,
+            ),
             onPressed: () {
               print("投稿ボタンを押した");
             },

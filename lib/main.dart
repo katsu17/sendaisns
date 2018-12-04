@@ -10,7 +10,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '仙台SNS',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.orange,
+        accentColor: Colors.cyan,
+        scaffoldBackgroundColor: Colors.white,
+        textTheme: TextTheme(
+          body1: TextStyle(
+            fontSize: 15.0,
+          ),
+          button: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        buttonTheme: ButtonThemeData(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
+        ),
       ),
       home: MyHomePage(),
     );
@@ -88,6 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             child: Text(
               post["text"],
+              style: Theme.of(context).textTheme.body1,
             ),
           ),
           Image.network(
