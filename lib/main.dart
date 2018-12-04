@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -11,7 +10,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+<<<<<<< HEAD
       home: MyHomePage(title: 'Sendai SNS'),
+=======
+      home: MyHomePage(title: '仙台SNS'),
+>>>>>>> cc5c6337e262fcad18c9dd8c59cadc62697c21f4
     );
   }
 }
