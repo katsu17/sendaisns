@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:async';
+import 'dart:io';
 
 class PostPage extends StatefulWidget {
   @override
@@ -8,6 +11,15 @@ class PostPage extends StatefulWidget {
 }
 
 class PostPageState extends State<PostPage> {
+    File _image;
+
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = image;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,12 +38,11 @@ class PostPageState extends State<PostPage> {
               ),
               IconButton(
                 icon: Icon(Icons.image),
-                onPressed: () {
-                  print("写真ボタンを押した");
-                },
+                onPressed: getImage,
               ),
             ],
           ),
+          _image == null? Container(): Image.file(_image),
           RaisedButton(
             child: Text("投稿"),
             onPressed: () {
