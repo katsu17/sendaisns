@@ -52,18 +52,8 @@ class _MyHomePageState extends State<MyHomePage> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(25.0),
-              child: Image.network(
-                post["user"]["image"],
-                fit: BoxFit.cover,
-                height: 50.0,
-                width: 50.0,
-              ),
-            ),
-            Container(
-              width: 8.0,
-            ),
+            ClipRRect(borderRadius: BorderRadius.circular(25.0),child: Image.network(post["user"]["image"], fit: BoxFit.cover,height: 50.0, width: 50.0,)),
+              Container(width: 8.0,),
             Text(post["user"]["name"]),
           ],
         ),
