@@ -99,15 +99,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 Container(
                   width: 8.0,
                 ),
-                Expanded(
-                  child: Text(
-                    post["user"]["name"],
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
-                    ),
+                Text(
+                  post["user"]["name"],
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
                   ),
                 ),
+                Spacer(),
                 Text(
                   "${post["posted_at"].year}/${post["posted_at"].month}/${post["posted_at"].day}",
                   style: TextStyle(
@@ -156,6 +155,50 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         tooltip: '投稿',
         child: Icon(Icons.edit),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            DrawerHeader(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(25.0),
+                        child: Image.network(
+                          "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
+                          fit: BoxFit.cover,
+                          width: 50.0,
+                          height: 50.0,
+                        ),
+                      ),
+                      Container(
+                        width: 4.0,
+                      ),
+                      Text('Sophie'),
+                    ],
+                  ),
+                  Container(height: 8.0,),
+                  Text("189投稿"),
+                ],
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).accentColor,
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.person,),
+              title: Text("プロフィール",),
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text("設定",),
+            ),
+          ],
+        ),
       ),
     );
   }
