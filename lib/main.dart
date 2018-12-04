@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'post.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -46,34 +48,53 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   Widget _postBlock(Map post) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            ClipRRect(
-                borderRadius: BorderRadius.circular(25.0),
-                child: Image.network(
-                  post["user"]["image"],
-                  fit: BoxFit.cover,
-                  height: 50.0,
-                  width: 50.0,
-                )),
-            Container(
-              width: 8.0,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 4.0,
             ),
-            Text(post["user"]["name"]),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 8.0,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(25.0),
+                    child: Image.network(
+                      post["user"]["image"],
+                      fit: BoxFit.cover,
+                      height: 50.0,
+                      width: 50.0,
+                    )),
+                Container(
+                  width: 8.0,
+                ),
+                Text(
+                  post["user"]["name"],
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ],
+            ),
           ),
-          child: Text(post["text"]),
-        ),
-        Image.network(post["image"]),
-      ],
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 8.0,
+              horizontal: 4.0,
+            ),
+            child: Text(
+              post["text"],
+            ),
+          ),
+          Image.network(
+            post["image"],
+          ),
+        ],
+      ),
     );
   }
 
@@ -90,7 +111,10 @@ class _MyHomePageState extends State<MyHomePage> {
           }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print("投稿ボタンを押しました");
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => PostPage()),
+          );
         },
         tooltip: '投稿',
         child: Icon(Icons.edit),
