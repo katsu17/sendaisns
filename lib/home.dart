@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'post.dart';
+import 'user.dart';
 import 'model/post.dart';
 import 'model/userData.dart';
 
@@ -67,25 +68,41 @@ class _HomePageState extends State<HomePage> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(25.0),
-                  child: CachedNetworkImage(
-                    imageUrl: post.userData.image,
-                    width: 50.0,
-                    height:50.0,
-                    placeholder: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 8.0,
-                ),
-                Text(
-                  post.userData.name,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0,
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserPage(post.userData),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(25.0),
+                        child: CachedNetworkImage(
+                          imageUrl: post.userData.image,
+                          fit: BoxFit.cover,
+                          width: 50.0,
+                          height: 50.0,
+                          placeholder: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 8.0,
+                      ),
+                      Text(
+                        post.userData.name,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Spacer(),
@@ -135,7 +152,9 @@ class _HomePageState extends State<HomePage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => PostPage()),
+            MaterialPageRoute(
+              builder: (context) => PostPage(),
+            ),
           );
         },
         tooltip: '投稿',
