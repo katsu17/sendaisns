@@ -1,3 +1,5 @@
+// 新しい投稿をすることができる画面
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:async';

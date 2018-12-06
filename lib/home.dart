@@ -1,8 +1,11 @@
+//投稿一覧がみれるメイン画面
+
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'post.dart';
 import 'user.dart';
+import 'welcome.dart';
 import 'model/post.dart';
 import 'model/userData.dart';
 
@@ -145,6 +148,25 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("仙台SNS"),
+        actions: <Widget>[
+          FlatButton(
+            child: Text(
+              "Welcome",
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WelcomePage(),
+                      ),
+                    );
+
+            },
+          ),
+        ],
       ),
       body: ListView.builder(
           itemCount: _posts.length,
