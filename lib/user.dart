@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import 'model/userData.dart';
 
-class UserPage extends StatefulWidget {
+class UserPage extends StatelessWidget {
   UserPage(
     this.user,
   );
@@ -11,25 +11,16 @@ class UserPage extends StatefulWidget {
   final UserData user;
 
   @override
-  UserPageState createState() {
-    return UserPageState(user);
-  }
-}
-
-class UserPageState extends State<UserPage> {
-  UserPageState(this.user);
-
-  final UserData user;
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(user.name)),
+      appBar: AppBar(
+        title: Hero(tag: "name${user.image}", child: Text(user.name)),
+      ),
       body: ListView(
         children: <Widget>[
           AspectRatio(
             aspectRatio: 1.0,
-                      child: CachedNetworkImage(
+            child: CachedNetworkImage(
               imageUrl: user.image,
               fit: BoxFit.cover,
               placeholder: Center(

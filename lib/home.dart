@@ -80,15 +80,18 @@ class _HomePageState extends State<HomePage> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(25.0),
-                        child: CachedNetworkImage(
-                          imageUrl: post.userData.image,
-                          fit: BoxFit.cover,
-                          width: 50.0,
-                          height: 50.0,
-                          placeholder: Center(
-                            child: CircularProgressIndicator(),
+                      Hero(
+                        tag: "image${post.userData.image}",
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(25.0),
+                          child: CachedNetworkImage(
+                            imageUrl: post.userData.image,
+                            fit: BoxFit.cover,
+                            width: 50.0,
+                            height: 50.0,
+                            placeholder: Center(
+                              child: CircularProgressIndicator(),
+                            ),
                           ),
                         ),
                       ),
