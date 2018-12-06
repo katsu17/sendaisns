@@ -18,13 +18,16 @@ class UserPage extends StatelessWidget {
       ),
       body: ListView(
         children: <Widget>[
-          AspectRatio(
-            aspectRatio: 1.0,
-            child: CachedNetworkImage(
-              imageUrl: user.image,
-              fit: BoxFit.cover,
-              placeholder: Center(
-                child: CircularProgressIndicator(),
+          Hero(
+            tag: "image${user.image}",
+                      child: AspectRatio(
+              aspectRatio: 1.0,
+              child: CachedNetworkImage(
+                imageUrl: user.image,
+                fit: BoxFit.cover,
+                placeholder: Center(
+                  child: CircularProgressIndicator(),
+                ),
               ),
             ),
           ),
