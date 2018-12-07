@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import 'dart:async';
+
 import 'post.dart';
 import 'user.dart';
 import 'welcome.dart';
@@ -88,6 +90,7 @@ class _HomePageState extends State<HomePage> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(25.0),
                           child: CachedNetworkImage(
+                            key: ValueKey(post.userData.image),
                             imageUrl: post.userData.image,
                             fit: BoxFit.cover,
                             width: 50.0,
@@ -133,6 +136,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           CachedNetworkImage(
+            key: ValueKey(post.image),
             imageUrl: post.image,
             placeholder: Center(
               child: CircularProgressIndicator(),
@@ -141,6 +145,21 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  Future<void> _refresh() async {
+    await Future.delayed(Duration(seconds: 3));
+    final UserData user = UserData(name: "maru", image: "https://www.sankei.com/images/news/181119/spo1811190018-p1.jpg");
+    _posts.insert(0, Post(
+      userData: user,
+      image: "https://i.ytimg.com/vi/zoVJbv5Zm7M/maxresdefault.jpg",
+      text: "楽天みたいな弱小球団に誰が行くかボケ",
+      postedAt: DateTime(2018, 12, 6),
+    ));
+    setState(() {
+          
+        });
+    return;
   }
 
   @override
@@ -157,22 +176,24 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => WelcomePage(),
-                      ),
-                    );
-
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => WelcomePage(),
+                ),
+              );
             },
           ),
         ],
       ),
-      body: ListView.builder(
-          itemCount: _posts.length,
-          itemBuilder: (context, index) {
-            return _postBlock(_posts[index]);
-          }),
+      body: RefreshIndicator(
+        onRefresh: _refresh,
+        child: ListView.builder(
+            itemCount: _posts.length,
+            itemBuilder: (context, index) {
+              return _postBlock(_posts[index]);
+            }),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
