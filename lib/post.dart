@@ -6,7 +6,7 @@ import 'dart:io';
 class PostPage extends StatefulWidget {
   @override
   PostPageState createState() {
-    return PostPageState();
+    return new PostPageState();
   }
 }
 
@@ -44,10 +44,7 @@ class PostPageState extends State<PostPage> {
           ),
           _image == null ? Container() : Image.file(_image),
           RaisedButton(
-            child: Text(
-              "投稿",
-              style: Theme.of(context).textTheme.button,
-            ),
+            child: Text("投稿"),
             onPressed: () {
               print("投稿ボタンを押した");
             },
