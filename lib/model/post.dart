@@ -1,3 +1,7 @@
+//投稿データを表示するためのモデル
+// DateTime というクラスはDartプログラミング言語に最初から存在するクラスで、javascriptでいう Date クラス
+// UserData というクラスは我々が作ったクラス。定義はmodelフォルダー内のuserData.dartに書いてある
+
 import 'package:flutter/foundation.dart';
 
 import 'userData.dart';

@@ -1,7 +1,14 @@
+//投稿一覧がみれるメイン画面
+
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import 'dart:async';
+
 import 'post.dart';
+import 'profileedit.dart';
+import 'user.dart';
+import 'welcome.dart';
 import 'model/post.dart';
 import 'model/userData.dart';
 
@@ -67,25 +74,45 @@ class _HomePageState extends State<HomePage> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(25.0),
-                  child: CachedNetworkImage(
-                    imageUrl: post.userData.image,
-                    width: 50.0,
-                    height:50.0,
-                    placeholder: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 8.0,
-                ),
-                Text(
-                  post.userData.name,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0,
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserPage(post.userData),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Hero(
+                        tag: "image${post.userData.image}",
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(25.0),
+                          child: CachedNetworkImage(
+                            key: ValueKey(post.userData.image),
+                            imageUrl: post.userData.image,
+                            fit: BoxFit.cover,
+                            width: 50.0,
+                            height: 50.0,
+                            placeholder: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 8.0,
+                      ),
+                      Text(
+                        post.userData.name,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Spacer(),
@@ -110,6 +137,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           CachedNetworkImage(
+            key: ValueKey(post.image),
             imageUrl: post.image,
             placeholder: Center(
               child: CircularProgressIndicator(),
@@ -120,22 +148,63 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Future<void> _refresh() async {
+    await Future.delayed(Duration(seconds: 3));
+    final UserData user = UserData(
+        name: "maru",
+        image:
+            "https://www.sankei.com/images/news/181119/spo1811190018-p1.jpg");
+    _posts.insert(
+        0,
+        Post(
+          userData: user,
+          image: "https://i.ytimg.com/vi/zoVJbv5Zm7M/maxresdefault.jpg",
+          text: "楽天みたいな弱小球団に誰が行くかボケ",
+          postedAt: DateTime(2018, 12, 6),
+        ));
+    setState(() {});
+    return;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("仙台SNS"),
+        actions: <Widget>[
+          FlatButton(
+            child: Text(
+              "Welcome",
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => WelcomePage(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
-      body: ListView.builder(
-          itemCount: _posts.length,
-          itemBuilder: (context, index) {
-            return _postBlock(_posts[index]);
-          }),
+      body: RefreshIndicator(
+        onRefresh: _refresh,
+        child: ListView.builder(
+            itemCount: _posts.length,
+            itemBuilder: (context, index) {
+              return _postBlock(_posts[index]);
+            }),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => PostPage()),
+            MaterialPageRoute(
+              builder: (context) => PostPage(),
+            ),
           );
         },
         tooltip: '投稿',
@@ -184,7 +253,12 @@ class _HomePageState extends State<HomePage> {
                 "プロフィール",
               ),
               onTap: () {
-                print("tap");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfileEditPage(),
+                  ),
+                );
               },
             ),
             ListTile(

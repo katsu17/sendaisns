@@ -5,14 +5,14 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 import 'dart:io';
 
-class PostPage extends StatefulWidget {
+class ProfileEditPage extends StatefulWidget {
   @override
-  PostPageState createState() {
-    return new PostPageState();
+  ProfileEditPageState createState() {
+    return new ProfileEditPageState();
   }
 }
 
-class PostPageState extends State<PostPage> {
+class ProfileEditPageState extends State<ProfileEditPage> {
   File _image;
 
   Future getImage() async {
@@ -25,7 +25,7 @@ class PostPageState extends State<PostPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("投稿")),
+      appBar: AppBar(title: Text("プロフィール編集")),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
