@@ -218,27 +218,38 @@ class _HomePageState extends State<HomePage> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(25.0),
-                        child: Image.network(
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(25.0),
+                    child: CachedNetworkImage(
+                      imageUrl:
                           "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
-                          fit: BoxFit.cover,
-                          width: 50.0,
-                          height: 50.0,
-                        ),
+                      placeholder: Center(
+                        child: CircularProgressIndicator(),
                       ),
-                      Container(
-                        width: 4.0,
-                      ),
-                      Text('Sophie'),
-                    ],
+                      fit: BoxFit.cover,
+                      width: 50.0,
+                      height: 50.0,
+                    ),
                   ),
                   Container(
                     height: 8.0,
                   ),
-                  Text("189投稿"),
+                  Text(
+                    'Sophie',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.0,
+                    ),
+                  ),
+                  Container(
+                    height: 8.0,
+                  ),
+                  Text(
+                    "189投稿",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
                 ],
               ),
               decoration: BoxDecoration(
@@ -249,12 +260,10 @@ class _HomePageState extends State<HomePage> {
               leading: Icon(
                 Icons.person,
               ),
-              title: Text(
-                "プロフィール",
-                style: TextStyle(
-                  color: Colors.grey,
-                )
-              ),
+              title: Text("プロフィール",
+                  style: TextStyle(
+                    color: Colors.grey,
+                  )),
               onTap: () {
                 Navigator.push(
                   context,
