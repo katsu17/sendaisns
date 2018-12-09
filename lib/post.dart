@@ -8,7 +8,7 @@ import 'dart:io';
 class PostPage extends StatefulWidget {
   @override
   PostPageState createState() {
-    return new PostPageState();
+    return PostPageState();
   }
 }
 

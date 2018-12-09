@@ -8,7 +8,7 @@ import 'dart:io';
 class ProfileEditPage extends StatefulWidget {
   @override
   ProfileEditPageState createState() {
-    return new ProfileEditPageState();
+    return ProfileEditPageState();
   }
 }
 
