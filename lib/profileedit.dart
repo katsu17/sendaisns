@@ -29,12 +29,18 @@ class ProfileEditPageState extends State<ProfileEditPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          Container(
+            padding: EdgeInsets.all(8.0),
+          ),
           Row(
             children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(8.0),
+              ),
               Expanded(
                 child: TextFormField(
                   decoration: InputDecoration(
-                    labelText: "投稿内容",
+                    labelText: "名前",
                   ),
                 ),
               ),
@@ -42,15 +48,32 @@ class ProfileEditPageState extends State<ProfileEditPage> {
                 icon: Icon(Icons.image),
                 onPressed: getImage,
               ),
+              Container(
+                padding: EdgeInsets.all(8.0),
+              ),
             ],
           ),
           _image == null ? Container() : Image.file(_image),
-          RaisedButton(
-            child: Text("投稿"),
-            onPressed: () {
-              print("投稿ボタンを押した");
-            },
+          Container(
+            padding: EdgeInsets.all(8.0),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(
+                color: Colors.orange,
+                child: Text(
+                  "編集する",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                onPressed: () {
+                  print("編集するボタンを押した");
+                },
+              ),
+            ],
+          )
         ],
       ),
     );

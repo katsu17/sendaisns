@@ -251,6 +251,9 @@ class _HomePageState extends State<HomePage> {
               ),
               title: Text(
                 "プロフィール",
+                style: TextStyle(
+                  color: Colors.grey,
+                )
               ),
               onTap: () {
                 Navigator.push(
@@ -265,6 +268,9 @@ class _HomePageState extends State<HomePage> {
               leading: Icon(Icons.settings),
               title: Text(
                 "設定",
+                style: TextStyle(
+                  color: Colors.grey,
+                ),
               ),
               onTap: () {
                 print("tap");
