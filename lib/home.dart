@@ -67,8 +67,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-
-
   Future<void> _refresh() async {
     await Future.delayed(Duration(seconds: 3));
     final UserData user = UserData(
@@ -113,11 +111,17 @@ class _HomePageState extends State<HomePage> {
       ),
       body: RefreshIndicator(
         onRefresh: _refresh,
-        child: ListView.builder(
-            itemCount: _posts.length,
-            itemBuilder: (context, index) {
+        child: ListView(
+          children: List.generate(_posts.length + 1, (index) {
+            if(index == _posts.length) return Container(height: 80.0,);
               return PostBlock(post: _posts[index]);
-            }),
+          }),
+        ),
+        // child: ListView.builder(
+        //     itemCount: _posts.length,
+        //     itemBuilder: (context, index) {
+        //       return PostBlock(post: _posts[index]);
+        //     }),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -157,7 +161,9 @@ class _HomePageState extends State<HomePage> {
                           width: 70.0,
                           height: 70.0,
                           child: Center(
-                            child: CircularProgressIndicator(),
+                            child: CircularProgressIndicator(
+                              backgroundColor: Colors.white,
+                            ),
                           ),
                         ),
                         fit: BoxFit.cover,

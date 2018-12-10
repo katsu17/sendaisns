@@ -4,14 +4,30 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../model/post.dart';
 import '../user.dart';
 
-class PostBlock extends StatelessWidget {
-PostBlock({this.post});
+class PostBlock extends StatefulWidget {
+  PostBlock({this.post});
 
-final Post post;
+  final Post post;
 
   @override
-    Widget build(BuildContext context) {
-      return Padding(
+  PostBlockState createState() {
+    return PostBlockState(post);
+  }
+}
+
+class PostBlockState extends State<PostBlock> {
+  PostBlockState(this.post);
+
+  final Post post;
+
+  void _liked() {
+    post.pressedLike();
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -96,8 +112,48 @@ final Post post;
               child: CircularProgressIndicator(),
             ),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              InkWell(
+                onTap: _liked,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      Icon(
+                        post.liked == true
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        color: post.liked == true
+                            ? Colors.pink[300]
+                            : Colors.grey,
+                      ),
+                      Container(
+                        width: 4.0,
+                      ),
+                      Text(
+                        post.likeCount == null
+                            ? "0"
+                            : post.likeCount.toString(),
+                        style: TextStyle(
+                          fontSize: 18.0,
+                        color: post.liked == true
+                            ? Colors.pink[300]
+                            : Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
-    }
+  }
 }
