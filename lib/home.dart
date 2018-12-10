@@ -11,6 +11,7 @@ import 'user.dart';
 import 'welcome.dart';
 import 'model/post.dart';
 import 'model/userData.dart';
+import 'helper/postBlock.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -66,96 +67,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  Widget _postBlock(Post post) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 4.0,
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => UserPage(post.userData),
-                      ),
-                    );
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Hero(
-                        tag: "image${post.userData.image}",
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(25.0),
-                          child: CachedNetworkImage(
-                            key: ValueKey(post.userData.image),
-                            imageUrl: post.userData.image,
-                            fit: BoxFit.cover,
-                            width: 50.0,
-                            height: 50.0,
-                            placeholder: Container(
-                              height: 50.0,
-                              width: 50.0,
-                              child: Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 8.0,
-                      ),
-                      Text(
-                        post.userData.name,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Spacer(),
-                Text(
-                  "${post.postedAt.year}/${post.postedAt.month}/${post.postedAt.day}",
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 12.0,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 8.0,
-              horizontal: 4.0,
-            ),
-            child: Text(
-              post.text,
-              style: Theme.of(context).textTheme.body1,
-            ),
-          ),
-          CachedNetworkImage(
-            key: ValueKey(post.image),
-            imageUrl: post.image,
-            placeholder: Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+
 
   Future<void> _refresh() async {
     await Future.delayed(Duration(seconds: 3));
@@ -204,7 +116,7 @@ class _HomePageState extends State<HomePage> {
         child: ListView.builder(
             itemCount: _posts.length,
             itemBuilder: (context, index) {
-              return _postBlock(_posts[index]);
+              return PostBlock(post: _posts[index]);
             }),
       ),
       floatingActionButton: FloatingActionButton(
