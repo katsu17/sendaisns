@@ -24,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   UserData myProfile = UserData(
     name: "Sophie",
     image: "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
+    postedNumber: 189,
   );
 
   @override
@@ -100,8 +101,12 @@ class _HomePageState extends State<HomePage> {
                             fit: BoxFit.cover,
                             width: 50.0,
                             height: 50.0,
-                            placeholder: Center(
-                              child: CircularProgressIndicator(),
+                            placeholder: Container(
+                              height: 50.0,
+                              width: 50.0,
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
                             ),
                           ),
                         ),
@@ -236,8 +241,12 @@ class _HomePageState extends State<HomePage> {
                       },
                       child: CachedNetworkImage(
                         imageUrl: myProfile.image,
-                        placeholder: Center(
-                          child: CircularProgressIndicator(),
+                        placeholder: Container(
+                          width: 70.0,
+                          height: 70.0,
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
                         ),
                         fit: BoxFit.cover,
                         width: 70.0,
@@ -270,7 +279,7 @@ class _HomePageState extends State<HomePage> {
                     height: 8.0,
                   ),
                   Text(
-                    "189投稿",
+                    "${myProfile.postedNumber}投稿",
                     style: TextStyle(
                       color: Colors.white,
                     ),
