@@ -12,9 +12,20 @@ class Post {
     @required this.text,
     @required this.postedAt,
     @required this.userData,
+    this.likeCount,
   });
   final String image;
   final String text;
   final DateTime postedAt;
   final UserData userData;
+  int likeCount;
+
+  void liked() {
+    if(likeCount == null) likeCount = 0;
+    likeCount += 1;
+  }
+
+  void disliked() {
+    if(likeCount >= 0) likeCount -= 1;
+  }
 }
