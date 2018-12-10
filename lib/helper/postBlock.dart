@@ -8,7 +8,6 @@ import 'dart:math' as math;
 import '../model/post.dart';
 import '../user.dart';
 
-
 // class LikeCurve extends Curve {
 //   final double pi = 3.141592653;
 //   final double overFactor = 1.2;
@@ -51,9 +50,8 @@ class PostBlockState extends State<PostBlock>
         CurvedAnimation(parent: controller, curve: Curves.easeOut);
     animation = Tween(begin: 0.0, end: 80.0).animate(curve)
       ..addListener(() {
-        if(animation.value >= 0.0) _postLikedIconSize = animation.value;
-        setState(() {
-        });
+        if (animation.value >= 0.0) _postLikedIconSize = animation.value;
+        setState(() {});
       })
       ..addStatusListener((AnimationStatus state) {
         if (state == AnimationStatus.completed) {
@@ -159,15 +157,42 @@ class PostBlockState extends State<PostBlock>
           ),
           InkWell(
             onDoubleTap: _liked,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  fullscreenDialog: true,
+                  builder: (context) => Scaffold(
+                    appBar: AppBar(
+                      backgroundColor: Colors.black,
+                    ),
+                    body: Container(
+                        color: Colors.black,
+                        child: Center(
+                          child: Hero(
+                            tag: "postImage${post.image}",
+                            child: CachedNetworkImage(
+                              imageUrl: post.image,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ),
+                ),
+              );
+            },
             child: Stack(
               children: <Widget>[
-                CachedNetworkImage(
-                  key: ValueKey(post.image),
-                  imageUrl: post.image,
-                  placeholder: Container(
-                    height: MediaQuery.of(context).size.width * 9 / 16,
-                    child: Center(
-                      child: CircularProgressIndicator(),
+                Hero(
+                  tag: "postImage${post.image}",
+                  child: CachedNetworkImage(
+                    key: ValueKey(post.image),
+                    imageUrl: post.image,
+                    placeholder: Container(
+                      height: MediaQuery.of(context).size.width * 9 / 16,
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
                     ),
                   ),
                 ),
