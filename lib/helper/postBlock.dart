@@ -1,8 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/animation.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
+import 'dart:async';
+import 'dart:math' as math;
 
 import '../model/post.dart';
 import '../user.dart';
+
+
+// class LikeCurve extends Curve {
+//   final double pi = 3.141592653;
+//   final double overFactor = 1.2;
+//   final double threshold = 0.5;
+//   @override
+//   double transform(double t) {
+//     if(t < threshold) return math.sin(t / threshold * pi * 0.5) * overFactor;
+//     if(t < (1 - (1 - threshold) / 2)) return overFactor - math.cos((t - threshold) * pi) * (overFactor -1) / 2 + (overFactor - 1) / 2;
+//     return  overFactor - (overFactor - 1) / 2 - math.sin((t - (1 - (1 - threshold) / 2)) * pi * 5) * (overFactor - 1) / 2;
+//   }
+// }
 
 class PostBlock extends StatefulWidget {
   PostBlock({this.post});
@@ -15,12 +32,47 @@ class PostBlock extends StatefulWidget {
   }
 }
 
-class PostBlockState extends State<PostBlock> {
+class PostBlockState extends State<PostBlock>
+    with SingleTickerProviderStateMixin {
   PostBlockState(this.post);
 
   final Post post;
 
+  double _postLikedIconSize = 0.0;
+
+  AnimationController controller;
+  Animation<double> animation;
+
+  initState() {
+    super.initState();
+    controller = AnimationController(
+        duration: const Duration(milliseconds: 200), vsync: this);
+    final CurvedAnimation curve =
+        CurvedAnimation(parent: controller, curve: Curves.easeOut);
+    animation = Tween(begin: 0.0, end: 80.0).animate(curve)
+      ..addListener(() {
+        if(animation.value >= 0.0) _postLikedIconSize = animation.value;
+        setState(() {
+        });
+      })
+      ..addStatusListener((AnimationStatus state) {
+        if (state == AnimationStatus.completed) {
+          Timer(Duration(milliseconds: 900), () {
+            _postLikedIconSize = 0.0;
+            setState(() {});
+            controller.reverse();
+          });
+        }
+      });
+  }
+
+  dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   void _liked() {
+    if (post.liked != true) controller.forward();
     post.pressedLike();
     setState(() {});
   }
@@ -105,11 +157,34 @@ class PostBlockState extends State<PostBlock> {
               style: Theme.of(context).textTheme.body1,
             ),
           ),
-          CachedNetworkImage(
-            key: ValueKey(post.image),
-            imageUrl: post.image,
-            placeholder: Center(
-              child: CircularProgressIndicator(),
+          InkWell(
+            onDoubleTap: _liked,
+            child: Stack(
+              children: <Widget>[
+                CachedNetworkImage(
+                  key: ValueKey(post.image),
+                  imageUrl: post.image,
+                  placeholder: Container(
+                    height: MediaQuery.of(context).size.width * 9 / 16,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 0.0,
+                  right: 0.0,
+                  bottom: 0.0,
+                  left: 0.0,
+                  child: Center(
+                    child: Icon(
+                      Icons.favorite,
+                      color: Colors.white54,
+                      size: _postLikedIconSize,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           Row(
@@ -128,9 +203,8 @@ class PostBlockState extends State<PostBlock> {
                         post.liked == true
                             ? Icons.favorite
                             : Icons.favorite_border,
-                        color: post.liked == true
-                            ? Colors.pink[300]
-                            : Colors.grey,
+                        color:
+                            post.liked == true ? Colors.pink[300] : Colors.grey,
                       ),
                       Container(
                         width: 4.0,
@@ -141,9 +215,9 @@ class PostBlockState extends State<PostBlock> {
                             : post.likeCount.toString(),
                         style: TextStyle(
                           fontSize: 18.0,
-                        color: post.liked == true
-                            ? Colors.pink[300]
-                            : Colors.grey,
+                          color: post.liked == true
+                              ? Colors.pink[300]
+                              : Colors.grey,
                         ),
                       ),
                     ],
