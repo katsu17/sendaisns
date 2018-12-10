@@ -11,6 +11,7 @@ import 'user.dart';
 import 'welcome.dart';
 import 'model/post.dart';
 import 'model/userData.dart';
+import 'helper/postBlock.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -21,6 +22,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Post> _posts = [];
+  UserData myProfile = UserData(
+    name: "Sophie",
+    image: "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
+    postedNumber: 189,
+  );
 
   @override
   void initState() {
@@ -205,11 +211,17 @@ class _HomePageState extends State<HomePage> {
       ),
       body: RefreshIndicator(
         onRefresh: _refresh,
-        child: ListView.builder(
-            itemCount: _posts.length,
-            itemBuilder: (context, index) {
-              return _postBlock(_posts[index]);
-            }),
+        child: ListView(
+          children: List.generate(_posts.length + 1, (index) {
+            if(index == _posts.length) return Container(height: 80.0,);
+              return PostBlock(post: _posts[index]);
+          }),
+        ),
+        // child: ListView.builder(
+        //     itemCount: _posts.length,
+        //     itemBuilder: (context, index) {
+        //       return PostBlock(post: _posts[index]);
+        //     }),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -231,27 +243,65 @@ class _HomePageState extends State<HomePage> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(25.0),
-                        child: Image.network(
-                          "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
-                          fit: BoxFit.cover,
-                          width: 50.0,
-                          height: 50.0,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(35.0),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UserPage(myProfile),
+                          ),
+                        );
+                      },
+                      child: CachedNetworkImage(
+                        imageUrl: myProfile.image,
+                        placeholder: Container(
+                          width: 70.0,
+                          height: 70.0,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              backgroundColor: Colors.white,
+                            ),
+                          ),
                         ),
+                        fit: BoxFit.cover,
+                        width: 70.0,
+                        height: 70.0,
                       ),
-                      Container(
-                        width: 4.0,
-                      ),
-                      Text('Sophie'),
-                    ],
+                    ),
                   ),
                   Container(
                     height: 8.0,
                   ),
-                  Text("189投稿"),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UserPage(myProfile),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      myProfile.name,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 8.0,
+                  ),
+                  Text(
+                    "${myProfile.postedNumber}投稿",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
                 ],
               ),
               decoration: BoxDecoration(
@@ -267,6 +317,7 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.grey,
                   )),
               onTap: () {
+                Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(

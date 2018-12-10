@@ -12,9 +12,24 @@ class Post {
     @required this.text,
     @required this.postedAt,
     @required this.userData,
+    this.liked,
+    this.likeCount,
   });
   final String image;
   final String text;
   final DateTime postedAt;
   final UserData userData;
+  bool liked;
+  int likeCount;
+
+  void pressedLike() {
+    if (liked == true) {
+      if (likeCount >= 0) likeCount -= 1;
+      liked = false;
+    } else {
+      if (likeCount == null) likeCount = 0;
+      likeCount += 1;
+      liked = true;
+    }
+  }
 }
