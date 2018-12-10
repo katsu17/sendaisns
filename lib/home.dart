@@ -143,6 +143,19 @@ class _HomePageState extends State<HomePage> {
               child: CircularProgressIndicator(),
             ),
           ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                leading: IconButton(
+                  icon: Icon(
+                    Icons.favorite_border,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),              
+            ],
+          ),
         ],
       ),
     );
@@ -249,12 +262,10 @@ class _HomePageState extends State<HomePage> {
               leading: Icon(
                 Icons.person,
               ),
-              title: Text(
-                "プロフィール",
-                style: TextStyle(
-                  color: Colors.grey,
-                )
-              ),
+              title: Text("プロフィール",
+                  style: TextStyle(
+                    color: Colors.grey,
+                  )),
               onTap: () {
                 Navigator.push(
                   context,
