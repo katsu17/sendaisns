@@ -21,6 +21,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Post> _posts = [];
+  UserData myProfile = UserData(
+    name: "Sophie",
+    image: "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
+  );
 
   @override
   void initState() {
@@ -219,26 +223,47 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(25.0),
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
-                      placeholder: Center(
-                        child: CircularProgressIndicator(),
+                    borderRadius: BorderRadius.circular(35.0),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UserPage(myProfile),
+                          ),
+                        );
+                      },
+                      child: CachedNetworkImage(
+                        imageUrl: myProfile.image,
+                        placeholder: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        fit: BoxFit.cover,
+                        width: 70.0,
+                        height: 70.0,
                       ),
-                      fit: BoxFit.cover,
-                      width: 50.0,
-                      height: 50.0,
                     ),
                   ),
                   Container(
                     height: 8.0,
                   ),
-                  Text(
-                    'Sophie',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UserPage(myProfile),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      myProfile.name,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                      ),
                     ),
                   ),
                   Container(
@@ -265,6 +290,7 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.grey,
                   )),
               onTap: () {
+                Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
