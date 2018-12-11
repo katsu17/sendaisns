@@ -22,6 +22,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Post> _posts = [];
+  List<PostBlock> _postBlocks = [];
   UserData myProfile = UserData(
     name: "Sophie",
     image: "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
@@ -64,6 +65,11 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     ];
+    _posts.forEach((post) {
+      _postBlocks.add(PostBlock(
+        post: post,
+      ));
+    });
     super.initState();
   }
 
@@ -73,13 +79,17 @@ class _HomePageState extends State<HomePage> {
         name: "maru",
         image:
             "https://www.sankei.com/images/news/181119/spo1811190018-p1.jpg");
-    _posts.insert(
+    print(_posts);
+    final post = Post(
+      userData: user,
+      image: "https://i.ytimg.com/vi/zoVJbv5Zm7M/maxresdefault.jpg",
+      text: "楽天みたいな弱小球団に誰が行くかボケ",
+      postedAt: DateTime(2018, 12, 6),
+    );
+    _postBlocks.insert(
         0,
-        Post(
-          userData: user,
-          image: "https://i.ytimg.com/vi/zoVJbv5Zm7M/maxresdefault.jpg",
-          text: "楽天みたいな弱小球団に誰が行くかボケ",
-          postedAt: DateTime(2018, 12, 6),
+        PostBlock(
+          post: post,
         ));
     setState(() {});
     return;
@@ -88,94 +98,79 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("仙台SNS"),
-        actions: <Widget>[
-          FlatButton(
-            child: Text(
-              "Welcome",
-              style: TextStyle(
-                color: Colors.white,
-              ),
+      appBar: appBar(context),
+      body: body(),
+      floatingActionButton: fab(context),
+      drawer: drawer(context),
+    );
+  }
+
+  AppBar appBar(BuildContext context) {
+    return AppBar(
+      title: Text("仙台SNS"),
+      actions: <Widget>[
+        FlatButton(
+          child: Text(
+            "Welcome",
+            style: TextStyle(
+              color: Colors.white,
             ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => WelcomePage(),
-                ),
-              );
-            },
           ),
-        ],
-      ),
-      body: RefreshIndicator(
-        onRefresh: _refresh,
-        child: ListView(
-          children: List.generate(_posts.length + 1, (index) {
-            if(index == _posts.length) return Container(height: 80.0,);
-              return PostBlock(post: _posts[index]);
-          }),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => WelcomePage(),
+              ),
+            );
+          },
         ),
-        // child: ListView.builder(
-        //     itemCount: _posts.length,
-        //     itemBuilder: (context, index) {
-        //       return PostBlock(post: _posts[index]);
-        //     }),
+      ],
+    );
+  }
+
+  RefreshIndicator body() {
+    return RefreshIndicator(
+      onRefresh: _refresh,
+      child: ListView(
+        children: List.generate(_postBlocks.length + 1, (index) {
+          if (index == _postBlocks.length)
+            return Container(
+              height: 80.0,
+            );
+          return _postBlocks[index];
+        }),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => PostPage(),
-            ),
-          );
-        },
-        tooltip: '投稿',
-        child: Icon(Icons.edit),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            DrawerHeader(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(35.0),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => UserPage(myProfile),
-                          ),
-                        );
-                      },
-                      child: CachedNetworkImage(
-                        imageUrl: myProfile.image,
-                        placeholder: Container(
-                          width: 70.0,
-                          height: 70.0,
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              backgroundColor: Colors.white,
-                            ),
-                          ),
-                        ),
-                        fit: BoxFit.cover,
-                        width: 70.0,
-                        height: 70.0,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 8.0,
-                  ),
-                  InkWell(
+    );
+  }
+
+  FloatingActionButton fab(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PostPage(),
+          ),
+        );
+      },
+      tooltip: '投稿',
+      child: Icon(Icons.edit),
+    );
+  }
+
+  Drawer drawer(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        children: <Widget>[
+          DrawerHeader(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(35.0),
+                  child: InkWell(
                     onTap: () {
                       Navigator.pop(context);
                       Navigator.push(
@@ -185,62 +180,91 @@ class _HomePageState extends State<HomePage> {
                         ),
                       );
                     },
-                    child: Text(
-                      myProfile.name,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
+                    child: CachedNetworkImage(
+                      imageUrl: myProfile.image,
+                      placeholder: Container(
+                        width: 70.0,
+                        height: 70.0,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            backgroundColor: Colors.white,
+                          ),
+                        ),
                       ),
+                      fit: BoxFit.cover,
+                      width: 70.0,
+                      height: 70.0,
                     ),
                   ),
-                  Container(
-                    height: 8.0,
-                  ),
-                  Text(
-                    "${myProfile.postedNumber}投稿",
+                ),
+                Container(
+                  height: 8.0,
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserPage(myProfile),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    myProfile.name,
                     style: TextStyle(
                       color: Colors.white,
+                      fontSize: 18.0,
                     ),
                   ),
-                ],
-              ),
-              decoration: BoxDecoration(
-                color: Theme.of(context).accentColor,
-              ),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.person,
-              ),
-              title: Text("プロフィール",
+                ),
+                Container(
+                  height: 8.0,
+                ),
+                Text(
+                  "${myProfile.postedNumber}投稿",
                   style: TextStyle(
-                    color: Colors.grey,
-                  )),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProfileEditPage(),
+                    color: Colors.white,
                   ),
-                );
-              },
+                ),
+              ],
             ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text(
-                "設定",
+            decoration: BoxDecoration(
+              color: Theme.of(context).accentColor,
+            ),
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.person,
+            ),
+            title: Text("プロフィール",
                 style: TextStyle(
                   color: Colors.grey,
+                )),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProfileEditPage(),
                 ),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text(
+              "設定",
+              style: TextStyle(
+                color: Colors.grey,
               ),
-              onTap: () {
-                print("tap");
-              },
             ),
-          ],
-        ),
+            onTap: () {
+              print("tap");
+            },
+          ),
+        ],
       ),
     );
-  }
+  }  
 }

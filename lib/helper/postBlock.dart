@@ -3,7 +3,7 @@ import 'package:flutter/animation.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'dart:async';
-import 'dart:math' as math;
+// import 'dart:math' as math;
 
 import '../model/post.dart';
 import '../user.dart';
@@ -27,13 +27,14 @@ class PostBlock extends StatefulWidget {
 
   @override
   PostBlockState createState() {
-    return PostBlockState(post);
+    return PostBlockState(post: post);
   }
 }
 
 class PostBlockState extends State<PostBlock>
     with SingleTickerProviderStateMixin {
-  PostBlockState(this.post);
+
+  PostBlockState({this.post});
 
   final Post post;
 
@@ -163,21 +164,21 @@ class PostBlockState extends State<PostBlock>
                 MaterialPageRoute(
                   fullscreenDialog: true,
                   builder: (context) => Scaffold(
-                    appBar: AppBar(
-                      backgroundColor: Colors.black,
-                    ),
-                    body: Container(
-                        color: Colors.black,
-                        child: Center(
-                          child: Hero(
-                            tag: "postImage${post.image}",
-                            child: CachedNetworkImage(
-                              imageUrl: post.image,
+                        appBar: AppBar(
+                          backgroundColor: Colors.black,
+                        ),
+                        body: Container(
+                          color: Colors.black,
+                          child: Center(
+                            child: Hero(
+                              tag: "postImage${post.image}",
+                              child: CachedNetworkImage(
+                                imageUrl: post.image,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                  ),
                 ),
               );
             },
@@ -228,8 +229,9 @@ class PostBlockState extends State<PostBlock>
                         post.liked == true
                             ? Icons.favorite
                             : Icons.favorite_border,
-                        color:
-                            post.liked == true ? Colors.pink[300] : Colors.grey,
+                        color: post.liked == true
+                            ? Colors.pink[300]
+                            : Colors.grey,
                       ),
                       Container(
                         width: 4.0,
