@@ -76,6 +76,10 @@ class PostBlockState extends State<PostBlock>
     setState(() {});
   }
 
+  void _comment() {
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -216,6 +220,37 @@ class PostBlockState extends State<PostBlock>
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
+              InkWell(
+                onTap: _comment,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.comment,
+                        color: Colors.grey,
+                      ),
+                      Container(
+                        width: 4.0,
+                      ),
+                      Text(
+                        post.commentCount == null
+                            ? "0"
+                            : post.commentCount.toString(),
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: post.liked == true
+                              ? Colors.pink[300]
+                              : Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               InkWell(
                 onTap: _liked,
                 child: Padding(

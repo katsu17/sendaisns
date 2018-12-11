@@ -5,6 +5,7 @@
 import 'package:flutter/foundation.dart';
 
 import 'userData.dart';
+import 'Comment.dart';
 
 class Post {
   Post({
@@ -14,6 +15,8 @@ class Post {
     @required this.userData,
     this.liked,
     this.likeCount,
+    this.comments,
+    this.commentCount,
   });
   final String image;
   final String text;
@@ -21,6 +24,9 @@ class Post {
   final UserData userData;
   bool liked;
   int likeCount;
+  List<Comment> comments;
+  int commentCount;
+
 
   void pressedLike() {
     if (liked == true) {
