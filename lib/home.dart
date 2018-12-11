@@ -149,19 +149,6 @@ class _HomePageState extends State<HomePage> {
               child: CircularProgressIndicator(),
             ),
           ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              ListTile(
-                leading: IconButton(
-                  icon: Icon(
-                    Icons.favorite_border,
-                    color: Colors.grey,
-                  ),
-                ),
-              ),              
-            ],
-          ),
         ],
       ),
     );
