@@ -225,6 +225,37 @@ class PostBlockState extends State<PostBlock>
                   child: Row(
                     children: <Widget>[
                       Icon(
+                        Icons.comment,
+                        color: Colors.grey,
+                      ),
+                      Container(
+                        width: 4.0,
+                      ),
+                      Text(
+                        post.likeCount == null
+                            ? "0"
+                            : post.likeCount.toString(),
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: post.liked == true
+                              ? Colors.pink[300]
+                              : Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: _liked,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      Icon(
                         post.liked == true
                             ? Icons.favorite
                             : Icons.favorite_border,

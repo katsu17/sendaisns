@@ -8,7 +8,7 @@ class comment {
   comment({
     @required this.text,
     @required this.createdAt,
-    this.commentarData,
+    @required this.commentarData,
   });
 
   final String text; 
