@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 
 import 'userData.dart';
 
-class comment {
-  comment({
+class Comment {
+  Comment({
     @required this.text,
     @required this.createdAt,
     @required this.commentarData,
