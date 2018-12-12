@@ -21,7 +21,7 @@ import '../user.dart';
 // }
 
 class PostBlock extends StatefulWidget {
-  PostBlock({this.post});
+  PostBlock({key: Key, this.post}) : super(key: key);
 
   final Post post;
 
@@ -33,7 +33,6 @@ class PostBlock extends StatefulWidget {
 
 class PostBlockState extends State<PostBlock>
     with SingleTickerProviderStateMixin {
-
   PostBlockState({this.post});
 
   final Post post;
@@ -45,6 +44,8 @@ class PostBlockState extends State<PostBlock>
 
   initState() {
     super.initState();
+    // post = widget.post;
+    // print(post.text);
     controller = AnimationController(
         duration: const Duration(milliseconds: 200), vsync: this);
     final CurvedAnimation curve =
@@ -76,9 +77,7 @@ class PostBlockState extends State<PostBlock>
     setState(() {});
   }
 
-  void _comment() {
-    
-  }
+  void _comment() {}
 
   @override
   Widget build(BuildContext context) {
@@ -264,9 +263,8 @@ class PostBlockState extends State<PostBlock>
                         post.liked == true
                             ? Icons.favorite
                             : Icons.favorite_border,
-                        color: post.liked == true
-                            ? Colors.pink[300]
-                            : Colors.grey,
+                        color:
+                            post.liked == true ? Colors.pink[300] : Colors.grey,
                       ),
                       Container(
                         width: 4.0,

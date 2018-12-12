@@ -65,122 +65,22 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     ];
-    _posts.forEach((post) {
-      _postBlocks.add(PostBlock(
-        post: post,
-      ));
-    });
     super.initState();
   }
 
-<<<<<<< HEAD
-=======
-  Widget _postBlock(Post post) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 4.0,
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => UserPage(post.userData),
-                      ),
-                    );
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Hero(
-                        tag: "image${post.userData.image}",
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(25.0),
-                          child: CachedNetworkImage(
-                            key: ValueKey(post.userData.image),
-                            imageUrl: post.userData.image,
-                            fit: BoxFit.cover,
-                            width: 50.0,
-                            height: 50.0,
-                            placeholder: Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 8.0,
-                      ),
-                      Text(
-                        post.userData.name,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Spacer(),
-                Text(
-                  "${post.postedAt.year}/${post.postedAt.month}/${post.postedAt.day}",
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 12.0,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 8.0,
-              horizontal: 4.0,
-            ),
-            child: Text(
-              post.text,
-              style: Theme.of(context).textTheme.body1,
-            ),
-          ),
-          CachedNetworkImage(
-            key: ValueKey(post.image),
-            imageUrl: post.image,
-            placeholder: Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
->>>>>>> 228e03223e4d6858ab35014885fc9ff0d8d78277
   Future<void> _refresh() async {
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(Duration(seconds: 1));
     final UserData user = UserData(
         name: "maru",
         image:
             "https://www.sankei.com/images/news/181119/spo1811190018-p1.jpg");
-    print(_posts);
     final post = Post(
       userData: user,
       image: "https://i.ytimg.com/vi/zoVJbv5Zm7M/maxresdefault.jpg",
       text: "楽天みたいな弱小球団に誰が行くかボケ",
       postedAt: DateTime(2018, 12, 6),
     );
-    _postBlocks.insert(
-        0,
-        PostBlock(
-          post: post,
-        ));
+    _posts.insert(0, post);
     setState(() {});
     return;
   }
@@ -223,12 +123,16 @@ class _HomePageState extends State<HomePage> {
     return RefreshIndicator(
       onRefresh: _refresh,
       child: ListView(
-        children: List.generate(_postBlocks.length + 1, (index) {
-          if (index == _postBlocks.length)
+        children: List.generate(_posts.length + 1, (index) {
+          if (index == _posts.length)
             return Container(
               height: 80.0,
             );
-          return _postBlocks[index];
+          // return Padding(
+          //   padding: const EdgeInsets.all(32.0),
+          //   child: Text(index.toString(),key: ValueKey(index),),
+          // );
+          return PostBlock(key: ObjectKey(_posts[index]), post: _posts[index]);
         }),
       ),
     );
@@ -356,5 +260,5 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
-  }  
+  }
 }
