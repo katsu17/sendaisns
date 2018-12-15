@@ -8,6 +8,8 @@ import 'dart:async';
 import '../model/post.dart';
 import '../user.dart';
 
+import '../postImage.dart';
+
 // class LikeCurve extends Curve {
 //   final double pi = 3.141592653;
 //   final double overFactor = 1.2;
@@ -166,22 +168,7 @@ class PostBlockState extends State<PostBlock>
                 context,
                 MaterialPageRoute(
                   fullscreenDialog: true,
-                  builder: (context) => Scaffold(
-                        appBar: AppBar(
-                          backgroundColor: Colors.black,
-                        ),
-                        body: Container(
-                          color: Colors.black,
-                          child: Center(
-                            child: Hero(
-                              tag: "postImage${post.image}",
-                              child: CachedNetworkImage(
-                                imageUrl: post.image,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                  builder: (context) => PostImage(post: post),
                 ),
               );
             },
@@ -241,9 +228,7 @@ class PostBlockState extends State<PostBlock>
                             : post.commentCount.toString(),
                         style: TextStyle(
                           fontSize: 18.0,
-                          color: post.liked == true
-                              ? Colors.pink[300]
-                              : Colors.grey,
+                          color: Colors.grey,
                         ),
                       ),
                     ],
