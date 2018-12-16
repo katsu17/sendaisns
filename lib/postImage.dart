@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/animation.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'dart:io';
 
 import 'model/post.dart';
 
@@ -13,14 +13,44 @@ class PostImage extends StatefulWidget {
   }
 }
 
-class PostImageState extends State<PostImage> {
+class PostImageState extends State<PostImage>
+    with SingleTickerProviderStateMixin {
   PostImageState(this.post);
   final Post post;
 
   Offset scrollStart = Offset(0, 0);
   double verticalScroll = 0.0;
+  double verticalScrollEnd = 0.0;
   Offset focalPoint = Offset(0, 0);
   double scale = 1.0;
+
+  AnimationController animationController;
+  Animation<double> animation;
+
+  @override
+  void initState() {
+    animationController = AnimationController(
+        duration: const Duration(milliseconds: 200), vsync: this);
+    final CurvedAnimation curve =
+        CurvedAnimation(parent: animationController, curve: Curves.easeOut);
+    animation = Tween(begin: 1.0, end: 0.0).animate(curve)
+      ..addListener(() {
+        verticalScroll = animation.value * verticalScrollEnd;
+        setState(() {});
+      })
+      ..addStatusListener((AnimationStatus state) {
+        if (state == AnimationStatus.completed) {
+          // animationController.reset();
+          verticalScrollEnd = 0.0;
+        }
+      });
+    super.initState();
+  }
+
+  dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
 
   void _scaleStart(ScaleStartDetails scaleStartDetail) {
     focalPoint = scaleStartDetail.focalPoint;
@@ -36,14 +66,17 @@ class PostImageState extends State<PostImage> {
   }
 
   void _scaleEnd(ScaleEndDetails scaleEndDetail) {
-    if (verticalScroll.abs() > 50.0 && scale == 1.0) {
+    if (verticalScroll.abs() > 70.0 && scale == 1.0) {
       Navigator.pop(context);
     } else {
       setState(() {
         focalPoint = Offset(0, 0);
         scale = 1.0;
-        verticalScroll = 0.0;
+        verticalScrollEnd = verticalScroll;
+        // verticalScroll = 0.0;
       });
+      animationController.reset();
+      animationController.forward();
     }
   }
 
@@ -61,7 +94,6 @@ class PostImageState extends State<PostImage> {
           color: Colors.black,
           child: Transform(
             origin: focalPoint,
-            // origin: Offset(0.0, 200.0),
             transform: Matrix4.translationValues(0.0, verticalScroll, 0.0)
                 .scaled(scale, scale),
             child: Center(

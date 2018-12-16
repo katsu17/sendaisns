@@ -3,11 +3,9 @@ import 'package:flutter/animation.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'dart:async';
-// import 'dart:math' as math;
 
 import '../model/post.dart';
 import '../user.dart';
-
 import '../postImage.dart';
 
 // class LikeCurve extends Curve {
@@ -41,17 +39,15 @@ class PostBlockState extends State<PostBlock>
 
   double _postLikedIconSize = 0.0;
 
-  AnimationController controller;
+  AnimationController animationController;
   Animation<double> animation;
 
   initState() {
     super.initState();
-    // post = widget.post;
-    // print(post.text);
-    controller = AnimationController(
+    animationController = AnimationController(
         duration: const Duration(milliseconds: 200), vsync: this);
     final CurvedAnimation curve =
-        CurvedAnimation(parent: controller, curve: Curves.easeOut);
+        CurvedAnimation(parent: animationController, curve: Curves.easeOut);
     animation = Tween(begin: 0.0, end: 80.0).animate(curve)
       ..addListener(() {
         if (animation.value >= 0.0) _postLikedIconSize = animation.value;
@@ -62,19 +58,19 @@ class PostBlockState extends State<PostBlock>
           Timer(Duration(milliseconds: 900), () {
             _postLikedIconSize = 0.0;
             setState(() {});
-            controller.reverse();
+            animationController.reverse();
           });
         }
       });
   }
 
   dispose() {
-    controller.dispose();
+    animationController.dispose();
     super.dispose();
   }
 
   void _liked() {
-    if (post.liked != true) controller.forward();
+    if (post.liked != true) animationController.forward();
     post.pressedLike();
     setState(() {});
   }
