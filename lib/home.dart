@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(context),
+      // appBar: appBar(context),
       body: body(),
       floatingActionButton: fab(context),
       drawer: drawer(context),
@@ -122,18 +122,26 @@ class _HomePageState extends State<HomePage> {
   RefreshIndicator body() {
     return RefreshIndicator(
       onRefresh: _refresh,
-      child: ListView(
-        children: List.generate(_posts.length + 1, (index) {
-          if (index == _posts.length)
-            return Container(
-              height: 80.0,
-            );
-          // return Padding(
-          //   padding: const EdgeInsets.all(32.0),
-          //   child: Text(index.toString(),key: ValueKey(index),),
-          // );
-          return PostBlock(key: ObjectKey(_posts[index]), post: _posts[index]);
-        }),
+      child: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            floating: true,
+            snap: true,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text('Demo'),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(List.generate(_posts.length + 1, (index) {
+                if (index == _posts.length)
+                  return Container(
+                    height: 80.0,
+                  );
+                return PostBlock(
+                    key: ObjectKey(_posts[index]), post: _posts[index]);
+            })),
+          ),
+        ],
       ),
     );
   }
